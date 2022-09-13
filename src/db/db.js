@@ -1,13 +1,34 @@
-const {Sequelize}=require('Sequelize')
-const sequelize=new Sequelize("bjmapvfemg92dfc2aayl","uisoyts6gxjkwpsz","qb7d2Do3GdOQgaiC90OG",{
-    host:"bjmapvfemg92dfc2aayl-mysql.services.clever-cloud.com",
-    dialect:"mysql"
+const {Sequelize}=require('sequelize')
+const database=require('../secrets')
+
+const sequelize=new Sequelize(database.DATABASE_NAME,database.DATABASE_USERNAME,database.DATABASE_PASSWORD,{
+    host:database.DATABASE_HOST,
+    dialect:database.DATABASE_DIALECT,
+    sync:{
+        force:true
+    }
 })
 
-try{
-    sequelize.authenticate()
-    console.log("Authentication Successfully")
-
-}catch{
-    console.log("Error")
+const models={
+    user:sequelize.import("../models/user")
 }
+
+try{
+    sequelize.authenticate().then(()=>{
+        console.log("Authentication Successfully")
+
+    })
+    sequelize.sync({
+        force:true,
+        logging:true
+
+    }).then(()=>{
+        console.log("Synchronized Successfully")
+    })
+}catch(e){
+    console.log(e)
+}
+
+models.sequelize=sequelize
+models.Sequelize=Sequelize
+module.exports=models
