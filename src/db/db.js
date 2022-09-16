@@ -10,7 +10,8 @@ const sequelize=new Sequelize(database.DATABASE_NAME,database.DATABASE_USERNAME,
 })
 
 const models={
-    user:sequelize.import("../models/user")
+    user:sequelize.import("../models/user"),
+    emergency_contact:sequelize.import("../models/emergency_contact")
 }
 
 try{

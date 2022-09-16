@@ -1,9 +1,12 @@
 const express=require('express')
 const models=require('../db/db')
-
+const checkUser=require('../middleware/create_user')
 const router=express.Router()
+router.get('/home',checkUser,async(req,res)=>{
+    return res.send("Hello world")
 
-router.post('/user',async(req,res)=>{
+})
+router.post('/user',checkUser,async(req,res)=>{
     try{
         const user_entry=await models.user.create({
             name:req.body.name,

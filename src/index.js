@@ -1,7 +1,9 @@
+require('./db/db')
 const express=require('express');
 const cors=require('cors')
 const userRouter=require('./routers/user')
-require('./db/db')
+const emergency_contact_router=require('./routers/emergency_contact')
+
 
 
 const app=express();
@@ -10,6 +12,7 @@ const port=3000;
 app.use(cors())
 app.use(express.json())
 app.use(userRouter)
+app.use(emergency_contact_router)
 
 
 
